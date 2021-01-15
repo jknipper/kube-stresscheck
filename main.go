@@ -14,7 +14,7 @@ import "C"
 const (
 	listenSocket = ":6666"
 
-	stressBinary          = "stress"
+	stressBinary          = "/usr/local/bin/stress"
 	stressTimeout         = 60
 	stressIterations      = 5
 	stressDefaultMemoryMB = 256

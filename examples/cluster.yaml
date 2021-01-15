@@ -30,33 +30,17 @@ kind: ServiceAccount
 metadata:
   name: kube-stresscheck
 ---
-apiVersion: extensions/v1beta1
-kind: PodSecurityPolicy
-metadata:
-  name: kube-stresscheck-psp
-spec:
-  allowPrivilegeEscalation: true
-  fsGroup:
-    rule: RunAsAny
-  privileged: true
-  runAsUser:
-    rule: RunAsAny
-  seLinux:
-    rule: RunAsAny
-  supplementalGroups:
-    rule: RunAsAny
-  volumes:
-  - 'secret'
----
 kind: DaemonSet
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 metadata:
   name: kube-stresscheck
   namespace: kube-system
   labels:
     app: kube-stresscheck
 spec:
-  replicas: 1
+  selector:
+    matchLabels:
+      app: kube-stresscheck
   template:
     metadata:
       labels:
@@ -67,4 +51,5 @@ spec:
         runAsUser: 0
       containers:
         - name: kube-stresscheck
-          image: quay.io/giantswarm/kube-stresscheck:latest
+          image: keppel.eu-de-1.cloud.sap/ccloud/kube-stresscheck:latest
+          imagePullPolicy: Always
